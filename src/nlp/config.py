@@ -1,5 +1,8 @@
 """src/nlp/config.py - Module Configuration.
 
+Author: Beth Spornitz
+Date: 2026-11
+
 (MODIFY YOUR VERSION OF THIS FILE)
 
 Stores configuration values for the web document EVTL pipeline.

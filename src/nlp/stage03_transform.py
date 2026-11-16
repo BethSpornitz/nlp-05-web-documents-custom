@@ -1,5 +1,8 @@
 """src/nlp/stage03_transform.py.
 
+Author: Beth Spornitz
+Date: 2026-11
+
 (EDIT YOUR VERSION OF THIS FILE)
 
 Source: validated BeautifulSoup object
