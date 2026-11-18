@@ -83,6 +83,16 @@ This analysis provides a simple example of how web mining and text analysis can 
 
 The original Python stages are preserved as examples. The custom application uses separate processing files to adapt the pipeline to the selected fall-risk paper.
 
+### Custom Application Files
+
+- `src/nlp/config_fall_risk.py` — Custom arXiv URL and output paths.
+- `src/nlp/pipeline_fall_risk.py` — Custom EVTL pipeline.
+- `src/nlp/stage01_extract_fall_risk.py` — Retrieve the selected paper's HTML.
+- `src/nlp/stage02_validate_fall_risk.py` — Validate required HTML elements.
+- `src/nlp/stage03_transform_fall_risk.py` — Extract metadata and calculate derived fields and clinical terminology frequencies.
+- `src/nlp/stage04_load_fall_risk.py` — Save the processed CSV.
+- `src/nlp/visualize_fall_risk.py` — Generate the clinical terminology frequency chart.
+
 ## Run the Project
 
 Follow the [Professional Python Workflow Guide](https://denisecase.github.io/pro-analytics-02/) to set up the development environment.
@@ -93,7 +103,25 @@ From a VS Code terminal in the project root, run the original example:
 uv run python -m nlp.pipeline_web_html
 ```
 
-The custom pipeline uses the same EVTL approach with the selected clinical fall risk paper.
+The custom pipeline uses the same EVTL approach with the selected clinical fall-risk paper. It uses separate configuration and processing stages to preserve the original example.
+
+Run the custom fall-risk pipeline:
+
+```powershell
+uv run python -m nlp.pipeline_fall_risk
+```
+
+This retrieves the paper's HTML page, validates the required elements, extracts research metadata, calculates derived fields, and saves the results to `data/processed/fall_risk_processed.csv`.
+
+Generate the clinical terminology frequency chart:
+
+```powershell
+uv run python -m nlp.visualize_fall_risk
+```
+
+The visualization script reads the processed CSV and saves the chart to `docs/images/fall_risk_term_frequencies.png`.
+
+The custom pipeline and visualization should be run in that order.
 
 ## Results
 
@@ -113,9 +141,30 @@ Pipeline executed successfully!
 ========================
 ```
 
-The custom analysis includes a clinical terminology frequency chart to illustrate how selected patient safety concepts appear in the paper's abstract.
+### Custom Fall-Risk Analysis Results
 
-Actual results, observations, and limitations are documented in the [project report](https://bethspornitz.github.io/nlp-05-web-documents-custom/).
+The custom EVTL pipeline successfully retrieved and processed the HTML abstract page for [An Interpretable Data-Driven Approach to Optimizing Clinical Fall Risk Assessment](https://arxiv.org/abs/2510.20714).
+
+All five required HTML elements were validated, and the extracted information was saved in a Pandas DataFrame containing **1 row and 14 columns**.
+
+The analysis produced the following results:
+
+| Measure | Result |
+|---|---:|
+| Authors | 5 |
+| Abstract words | 190 |
+| Estimated sentences | 8 |
+| Fall risk mentions | 4 |
+| Assessment mentions | 3 |
+| Prediction mentions | 1 |
+| Patient safety mentions | 1 |
+| Prevention mentions | 1 |
+
+The terms **fall risk** and **assessment** appeared most frequently among the five selected clinical terms. These results demonstrate how BeautifulSoup and Python can extract research information from an HTML document and transform it into structured data for analysis.
+
+The terminology frequencies were visualized using Matplotlib. The chart and a more detailed discussion of the methods, results, interpretation, and limitations are available in the [project report](https://bethspornitz.github.io/nlp-05-web-documents-custom/).
+
+The analysis is limited to one research abstract, and terminology frequency does not establish clinical significance.
 
 ## Verification
 

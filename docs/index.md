@@ -4,15 +4,15 @@ Web Mining and Applied NLP | Project 05 | Beth Spornitz
 
 ## Overview
 
-This project uses Python to extract and analyze information from an academic research paper about clinical fall-risk assessment.
+This project uses Python to extract and analyze information from an academic research paper about clinical fall risk assessment.
 
 The selected paper is **[An Interpretable Data-Driven Approach to Optimizing Clinical Fall Risk Assessment](https://arxiv.org/abs/2510.20714)**, available on arXiv.
 
-The objective is to retrieve the paper's HTML abstract page, validate its structure, extract research metadata, and organize the information for analysis.
+The objective is to retrieve the paper's HTML abstract page, validate its structure, extract research data, and organize the information for analysis.
 
 The project builds on the Extract, Validate, Transform, Load (EVTL) pipeline introduced in Module 4. Instead of working with JSON data from an API, this project processes semi-structured HTML documents.
 
-The project also examines abstract length and the use of clinical terminology related to fall-risk assessment.
+The project also examines abstract length and the use of clinical terminology related to fall risk assessment.
 
 ## Research Questions
 
@@ -49,7 +49,7 @@ The pipeline implements four stages:
 
 The Transform stage extracts the paper title, authors, abstract, subject categories, submission information, and arXiv identifier.
 
-Derived fields include abstract word count, author count, and abstract sentence count.
+Derived fields include abstract word count, author count, abstract sentence count, and case-insensitive frequencies of five selected clinical terms.
 
 ### Technical Modification
 
@@ -61,9 +61,9 @@ The technical modification is evaluated against the original example before bein
 
 ### Custom Application
 
-The custom application uses the same EVTL techniques to process the selected fall-risk research paper.
+The custom application uses the same EVTL techniques to process the selected fall risk research paper.
 
-The analysis focuses on terminology associated with clinical fall-risk assessment. Selected terms are counted within the extracted abstract and presented in a bar chart.
+The analysis focuses on terminology associated with clinical fall risk assessment. Selected terms are counted within the extracted abstract and presented in a bar chart.
 
 The terminology analysis examines the abstract text, not individual patient records or clinical outcomes.
 
@@ -87,25 +87,58 @@ The custom application uses separate output files:
 - `data/raw/fall_risk_raw.html` – HTML from the selected fall-risk paper.
 - `data/processed/fall_risk_processed.csv` – extracted and transformed research metadata.
 
-The custom outputs are verified after implementation.
+The custom pipeline executed successfully. All five required HTML selectors were validated, and the resulting DataFrame contained one row and 14 columns. The processed CSV was saved successfully, and the clinical terminology frequency chart was generated from the CSV using Matplotlib.
 
 ## Results and Visualization
 
-*Results and the clinical terminology frequency chart will be added after the custom pipeline has been executed and its outputs verified.*
+The custom EVTL pipeline successfully retrieved, validated, and processed the HTML abstract page for [An Interpretable Data-Driven Approach to Optimizing Clinical Fall Risk Assessment](https://arxiv.org/abs/2510.20714).
+
+All five required HTML elements were found during validation. The Transform stage extracted the research metadata, calculated derived fields, and created a Pandas DataFrame containing one row and 14 columns. The Load stage saved the results to `data/processed/fall_risk_processed.csv`.
+
+### Extracted Research Metadata
+
+| Field | Result |
+|---|---|
+| arXiv ID | 2510.20714 |
+| Authors | 5 |
+| Abstract word count | 190 |
+| Abstract sentence count | 8 (punctuation-based estimate) |
+| DataFrame dimensions | 1 row × 14 columns |
+| HTML validation | All five required elements found |
+
+### Clinical Terminology Frequency
+
+Five selected clinical terms were counted in the extracted abstract using case insensitive phrase matching.
+
+| Clinical term | Occurrences |
+|---|---:|
+| Fall risk | 4 |
+| Assessment | 3 |
+| Prediction | 1 |
+| Patient safety | 1 |
+| Prevention | 1 |
+
+![Bar chart showing the frequency of five selected clinical terms in the fall-risk research abstract](images/fall_risk_term_frequencies.png)
+
+*Figure 1. Frequency of selected clinical terms in the extracted research abstract. Counts were calculated from the abstract text and visualized using Matplotlib.*
+
+Among the selected terms, **fall risk** appeared most frequently (4 occurrences), followed by **assessment** (3 occurrences). The remaining three terms appeared once each.
+
+These results demonstrate how information extracted from an HTML document can be transformed into structured data and used to create a reproducible visualization.
 
 ## Interpretation and Limitations
 
-HTML documents are designed primarily for presentation in web browsers rather than structured data analysis.
+HTML documents are designed for presentation in web browsers rather than data analysis.
 
-Extracting information requires understanding the document's elements, attributes, and organization. Changes in webpage structure can affect validation and extraction results.
+Extracting information requires understanding the document's elements and organization. Changes in webpage structure can affect validation and extraction results.
 
 The validation stage helps identify missing or unexpected elements before the data is transformed.
 
 Abstract word count and sentence count describe characteristics of the research text, but they do not measure the quality or clinical importance of the study.
 
-Similarly, clinical terminology frequency identifies how often selected words or phrases appear in the abstract. Frequency alone does not establish the importance of a concept or the effectiveness of a fall-risk assessment method.
+Clinical term frequency identifies how often selected words or phrases appear in the abstract. Frequency does not imply that if a term is used more frequently that it is more important of a concept.  It also does not speak to the effectiveness of a fall risk assessment method.
 
-Because this project analyzes one paper's abstract, its findings are limited to that document and cannot be generalized to clinical practice.
+Because this project analyzes one paper's abstract, its findings are limited to that document.
 
 ## Documentation Index
 
